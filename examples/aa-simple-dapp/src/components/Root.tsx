@@ -1,6 +1,7 @@
 import Footer from "./Footer";
 import Hero from "./Hero";
 import Navbar from "./Navbar";
+import WalletDisplay from "./WalletDisplay";
 
 export default function Root() {
   return (
@@ -8,6 +9,7 @@ export default function Root() {
       <Navbar />
       <Hero />
       <Footer />
+      <WalletDisplay />
     </div>
   );
 }
