@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   output: "standalone",
   experimental: { appDir: true },
   reactStrictMode: true,
+  images: {
+    domains: ["recruitnft.s3.us-east-2.amazonaws.com"],
+  },
 };
-
-module.exports = nextConfig;

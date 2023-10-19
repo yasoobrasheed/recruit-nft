@@ -40,7 +40,7 @@ export default function Navbar() {
 
   return (
     <div className="flex flex-row justify-between items-center gap-[72px] max-md:flex-col max-md:text-center">
-      <div className="text-6xl font-bold">RecruitNFT</div>
+      <div className="text-6xl font-bold">Alchemy Recruiting</div>
       <div className="flex flex-row items-center gap-[12px] max-md:flex-col max-md:text-center">
         {isLoggedIn ? (
           <a

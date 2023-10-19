@@ -1,9 +1,12 @@
 "use client";
-import { AlchemyTokenAbi, tokenContractAddress } from "@/config/token-contract";
+import { RecruitNFTAbi, tokenContractAddress } from "@/config/token-contract";
 import { useWalletContext } from "@/context/wallet";
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { Hash, encodeFunctionData } from "viem";
+
+const RECRUIT_TOKEN_IMG_SRC =
+  "https://recruitnft.s3.us-east-2.amazonaws.com/assets/token.jpg";
 
 type MintStatus =
   | "Mint"
@@ -26,7 +29,7 @@ export default function Hero() {
     const uoHash = await provider.sendUserOperation({
       target: tokenContractAddress,
       data: encodeFunctionData({
-        abi: AlchemyTokenAbi,
+        abi: RecruitNFTAbi,
         functionName: "mint",
         args: [await provider.getAddress()],
       }),
@@ -37,6 +40,7 @@ export default function Hero() {
     try {
       txHash = await provider.waitForUserOperationTransaction(uoHash.hash);
     } catch (e) {
+      console.log(e);
       setMintStatus("Error Minting");
       setTimeout(() => {
         setMintStatus("Mint");
@@ -54,8 +58,8 @@ export default function Hero() {
   return (
     <div className="flex flex-row items-center gap-[64px] max-md:flex-col max-md:text-center">
       <Image
-        src="/kit-logo.svg"
-        alt="Account Kit Token"
+        src={RECRUIT_TOKEN_IMG_SRC}
+        alt="RECRUIT Token"
         width={400}
         height={400}
         priority
@@ -78,18 +82,17 @@ export default function Hero() {
               <div className="text-md">Powered By Account Kit</div>
             </a>
           </div>
-          <div className="text-5xl font-bold">Account Kit Token</div>
+          <br />
+          <div className="text-5xl font-bold">RecruitNFT</div>
         </div>
-        <div className="text-2xl">
-          Mint a FREE ERC-20 token with no gas fees!
-        </div>
+        <div className="text-2xl">Mint a FREE ERC-20 NFT!</div>
         <div className="flex flex-row flex-wrap gap-[12px]">
           <button
             disabled={!isLoggedIn || mintStatus !== "Mint"}
             onClick={handleMint}
             className="btn text-white bg-gradient-1 disabled:opacity-25 disabled:text-white transition ease-in-out duration-500 transform hover:scale-110 max-md:w-full"
           >
-            {mintStatus} The ALCH Token
+            {mintStatus} RECRUIT
             {(mintStatus === "Requesting" || mintStatus === "Minting") && (
               <span className="loading loading-spinner loading-md"></span>
             )}

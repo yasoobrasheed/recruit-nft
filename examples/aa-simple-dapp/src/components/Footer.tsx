@@ -5,14 +5,14 @@ export default function Footer() {
   return (
     <div className="flex flex-row flex-wrap items-center justify-center gap-[16px]">
       <FooterCard
+        title={"RecruitNFT Token"}
+        subTitle="Check out the contract on Etherscan!"
+        link={`https://sepolia.etherscan.io/address/${tokenContractAddress}#code`}
+      />
+      <FooterCard
         title={"AccountKit Docs"}
         subTitle="Check out Alchemy's Account Kit!"
         link={"https://accountkit.alchemy.com"}
-      />
-      <FooterCard
-        title={"Alchemy Token"}
-        subTitle="Check out the contract on Etherscan!"
-        link={`https://sepolia.etherscan.io/address/${tokenContractAddress}#code`}
       />
       <FooterCard
         title={"Alchemy.com"}
