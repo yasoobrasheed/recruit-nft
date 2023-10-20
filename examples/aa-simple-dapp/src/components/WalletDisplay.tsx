@@ -1,6 +1,6 @@
 "use client";
 import { useWalletContext } from "@/context/wallet";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface Nft {
   contract: object;
@@ -16,34 +16,16 @@ interface Data {
   length: number;
 }
 
-const RECRUIT_TOKEN_IMG_SRC =
-  "https://recruitnft.s3.us-east-2.amazonaws.com/assets/token.jpg";
-
-const Loader = () => {
-  return (
-    <div className="flex flex-1 flex-col justify-center items-center min-h-screen">
-      <span className="loading loading-spinner loading-lg"></span>
-      <h1 className="font-mono mt-5 animate-text font-black">
-        Fetching your NFTs
-      </h1>
-    </div>
-  );
-};
-
 export default function WalletDisplay() {
   const [isLoading, setIsLoading] = useState(true);
   const [ownedNftsArray, setOwnedNftsArray] = useState<Data | null>(null);
 
   const { scaAddress } = useWalletContext();
 
-  useEffect(() => {
-    fetchUserNfts();
-  }, [scaAddress]);
-
   async function fetchUserNfts() {
     setIsLoading(true);
     try {
-      const data = { address: scaAddress };
+      const data = { address: scaAddress || "" };
       const response = await fetch("/api/get-user-nfts/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -61,9 +43,12 @@ export default function WalletDisplay() {
   return (
     <div className="mt-14 md:mt-32 md:mb-16 mx-20">
       {isLoading ? (
-        <div className="flex items-center justify-center mt-[-320px] mb-16 md:mt-[-700px] md:mb-0">
-          <Loader />
-        </div>
+        <button
+          className="btn text-white bg-gradient-1 disabled:opacity-25 disabled:text-white transition ease-in-out duration-500 transform hover:scale-110 max-md:w-full"
+          onClick={fetchUserNfts}
+        >
+          CLICK TO LOAD YOUR NFTs
+        </button>
       ) : (
         <NFTDisplay ownedNftsArray={ownedNftsArray} />
       )}
@@ -90,7 +75,7 @@ const NFTDisplay: React.FC<NFTDisplayProps> = (props: NFTDisplayProps) => {
               >
                 <figure>
                   <img
-                    src={RECRUIT_TOKEN_IMG_SRC}
+                    src={nft.rawMetadata.image}
                     alt="user nft imagee"
                     className="w-full max d-h-[300px]"
                   />

@@ -31,7 +31,7 @@ export default function Hero() {
       data: encodeFunctionData({
         abi: RecruitNFTAbi,
         functionName: "mint",
-        args: [await provider.getAddress()],
+        args: [],
       }),
     });
 
@@ -42,9 +42,6 @@ export default function Hero() {
     } catch (e) {
       console.log(e);
       setMintStatus("Error Minting");
-      setTimeout(() => {
-        setMintStatus("Mint");
-      }, 5000);
       return;
     }
 
