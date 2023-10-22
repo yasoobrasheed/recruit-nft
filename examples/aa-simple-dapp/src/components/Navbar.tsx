@@ -39,14 +39,22 @@ export default function Navbar() {
   }, [logout]);
 
   return (
-    <div className="flex flex-row justify-between items-center gap-[72px] max-md:flex-col max-md:text-center">
-      <div className="text-6xl font-bold">Alchemy Recruiting</div>
+    <div className="flex flex-row justify-between items-center gap-[20px] max-md:flex-col max-md:text-center">
+      <div className="flex flex-row gap-[10px] max-md:text-left">
+        <img
+          src="/alcommunity-logo.svg"
+          alt="alcommunity logo"
+          width={28}
+          height={28}
+        />
+        <div className="text-2xl font-bold">alcommunity</div>
+      </div>
       <div className="flex flex-row items-center gap-[12px] max-md:flex-col max-md:text-center">
         {isLoggedIn ? (
           <a
             href={`https://sepolia.etherscan.io/address/${scaAddress}`}
             target="_blank"
-            className="btn text-white bg-gradient-1 disabled:text-white transition ease-in-out duration-500 transform hover:scale-110 max-md:w-full"
+            className="btn text-white bg-gradient-3 disabled:text-white transition ease-in-out duration-500 transform hover:scale-110 max-md:w-full"
           >
             {username || "Logged In!"}
           </a>
@@ -54,7 +62,7 @@ export default function Navbar() {
           <button
             disabled={isLoggingIn}
             onClick={openModal}
-            className="btn text-white bg-gradient-1 disabled:opacity-25 disabled:text-white transition ease-in-out duration-500 transform hover:scale-110 max-md:w-full"
+            className="btn text-white bg-gradient-3 disabled:opacity-25 disabled:text-white transition ease-in-out duration-500 transform hover:scale-110 max-md:w-full"
           >
             {isLoggingIn ? "Logging In" : "Log In"} With Email
             {isLoggingIn && (
@@ -87,7 +95,7 @@ export default function Navbar() {
           <div className="flex flex-row justify-end max-md:flex-col flex-wrap gap-[12px]">
             <button
               onClick={handleLogin}
-              className="btn bg-gradient-1 text-white transition ease-in-out duration-500 transform hover:scale-110"
+              className="btn bg-gradient-3 text-white transition ease-in-out duration-500 transform hover:scale-110"
             >
               Login
             </button>

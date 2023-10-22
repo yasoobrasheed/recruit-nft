@@ -17,6 +17,7 @@ interface Data {
 }
 
 export default function WalletDisplay() {
+  const { isLoggedIn } = useWalletContext();
   const [isLoading, setIsLoading] = useState(true);
   const [ownedNftsArray, setOwnedNftsArray] = useState<Data | null>(null);
 
@@ -44,10 +45,11 @@ export default function WalletDisplay() {
     <div className="mt-14 md:mt-32 md:mb-16 mx-20">
       {isLoading ? (
         <button
-          className="btn text-white bg-gradient-1 disabled:opacity-25 disabled:text-white transition ease-in-out duration-500 transform hover:scale-110 max-md:w-full"
+          className="btn text-white bg-gradient-3 disabled:opacity-25 disabled:text-white transition ease-in-out duration-500 transform hover:scale-110 max-md:w-full"
           onClick={fetchUserNfts}
+          disabled={!isLoggedIn}
         >
-          CLICK TO LOAD YOUR NFTs
+          LOAD NFTs
         </button>
       ) : (
         <NFTDisplay ownedNftsArray={ownedNftsArray} />
@@ -63,7 +65,7 @@ interface NFTDisplayProps {
 const NFTDisplay: React.FC<NFTDisplayProps> = (props: NFTDisplayProps) => {
   return (
     <div className="mb-16 md:mt-[-120px]">
-      <div className="mb-6 font-mono text-3xl font-bold">Your Wallet</div>
+      <div className="mb-6 text-3xl font-bold">Your Wallet</div>
       <div className="flex flex-col justify-between">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-y-12 mb-6 mx-0">
           {props.ownedNftsArray &&

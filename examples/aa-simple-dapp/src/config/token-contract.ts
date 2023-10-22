@@ -1,7 +1,7 @@
 export const tokenContractAddress =
   "0x422819DA109a27e1A8B1FaC48c98d49FA1a284d7";
 
-export const RecruitNFTAbi = [
+export const alcommunityAbi = [
   {
     inputs: [],
     stateMutability: "nonpayable",
