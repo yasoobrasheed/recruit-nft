@@ -2,7 +2,7 @@
 import { alcommunityAbi, tokenContractAddress } from "@/config/token-contract";
 import { useWalletContext } from "@/context/wallet";
 import Image from "next/image";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Hash, encodeFunctionData } from "viem";
 
 const ALCOMMUNITY_TOKEN_IMG_SRC =
@@ -19,6 +19,14 @@ export default function Hero() {
   const { isLoggedIn, provider } = useWalletContext();
   const [mintTxHash, setMintTxHash] = useState<Hash>();
   const [mintStatus, setMintStatus] = useState<MintStatus>("Mint");
+  const [linkedInUrlInputValue, setLinkedInUrlInputValue] =
+    useState<string>(""); // Initialize state with an empty string
+
+  const handleLinkedInUrlInputValueChanged = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setLinkedInUrlInputValue(event.target.value); // Update the inputValue state
+  };
 
   const handleMint = async () => {
     if (!provider) {
@@ -28,14 +36,16 @@ export default function Hero() {
 
     let uoHash: any;
     try {
-      uoHash = await provider.sendUserOperation({
-        target: tokenContractAddress,
-        data: encodeFunctionData({
-          abi: alcommunityAbi,
-          functionName: "mint",
-          args: [],
-        }),
-      });
+      uoHash = await provider
+        .sendUserOperation({
+          target: tokenContractAddress,
+          data: encodeFunctionData({
+            abi: alcommunityAbi,
+            functionName: "mint",
+            args: [],
+          }),
+        })
+        .then(() => {});
     } catch (e) {
       console.log(e);
       setMintStatus("Error Minting");
@@ -64,9 +74,30 @@ export default function Hero() {
         height={400}
         priority
       />
+      <input
+        type="text"
+        id="myInput"
+        name="myInput"
+        placeholder="LinkedIn Profile"
+        style={{
+          width: "100%",
+          padding: "10px",
+          margin: "5px 0",
+          border: "1px solid #ccc",
+          borderRadius: "4px",
+          boxSizing: "border-box",
+          fontSize: "14px",
+          paddingLeft: "15px", // Add left padding
+          paddingRight: "15px", // Add right padding
+        }}
+        value={linkedInUrlInputValue} // Bind the value to the state
+        onChange={handleLinkedInUrlInputValueChanged} // Handle input changes
+      />
       <div className="flex flex-row flex-wrap gap-[20px]">
         <button
-          disabled={!isLoggedIn || mintStatus !== "Mint"}
+          disabled={
+            !isLoggedIn || mintStatus !== "Mint" || !linkedInUrlInputValue
+          }
           onClick={handleMint}
           className="btn text-white bg-gradient-3 disabled:opacity-25 disabled:text-white transition ease-in-out duration-500 transform hover:scale-110 max-md:w-full"
         >

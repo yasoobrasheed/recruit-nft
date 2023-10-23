@@ -75,13 +75,18 @@ const NFTDisplay: React.FC<NFTDisplayProps> = (props: NFTDisplayProps) => {
                 key={index}
                 className="rounded-lg shadow-xl max-w-[250px] max-h-[600px] overflow-hidden"
               >
-                <figure>
-                  <img
-                    src={nft.rawMetadata.image}
-                    alt="user nft imagee"
-                    className="w-full max d-h-[300px]"
-                  />
-                </figure>
+                <a
+                  href={`https://sepolia.etherscan.io/token/${nft.contract.address}`}
+                  target="_blank"
+                >
+                  <figure>
+                    <img
+                      src={nft.rawMetadata.image}
+                      alt="user nft imagee"
+                      className="w-full max d-h-[300px]"
+                    />
+                  </figure>
+                </a>
               </div>
             ))}
         </div>
