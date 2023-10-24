@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
   const { address, linkedIn } = body;
   const data = {
-    text: `A recruiting prospect minted an alcommunity NFT with the following information:\nLinkedIn: ${linkedIn}\nBlock: ${address}`,
+    text: `A recruiting prospect minted an alcommunity NFT with the following information:\nLinkedIn: ${linkedIn}\Address: ${address}`,
   };
 
   const requestOptions = {
