@@ -16,23 +16,40 @@ type MintStatus =
   | "Error Minting";
 
 export default function Hero() {
-  const { isLoggedIn, provider } = useWalletContext();
+  const { isLoggedIn, provider, scaAddress } = useWalletContext();
   const [mintTxHash, setMintTxHash] = useState<Hash>();
   const [mintStatus, setMintStatus] = useState<MintStatus>("Mint");
   const [linkedInUrlInputValue, setLinkedInUrlInputValue] =
-    useState<string>(""); // Initialize state with an empty string
+    useState<string>("");
 
   const handleLinkedInUrlInputValueChanged = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    setLinkedInUrlInputValue(event.target.value); // Update the inputValue state
+    setLinkedInUrlInputValue(event.target.value);
+  };
+
+  const triggerSlackWebhook = async () => {
+    try {
+      const data = {
+        address: scaAddress || "",
+        linkedIn: linkedInUrlInputValue,
+      };
+      const response = await fetch("/api/trigger-slack-webhook/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const messageResponse = await response.json();
+      console.log(messageResponse);
+    } catch (error) {
+      console.error("Error sending Slack notification:", error);
+    }
   };
 
   const handleMint = async () => {
     if (!provider) {
       throw new Error("Provider not initialized");
     }
-    setMintStatus("Requesting");
 
     let uoHash: any;
     try {
@@ -45,7 +62,9 @@ export default function Hero() {
             args: [],
           }),
         })
-        .then(() => {});
+        .then(() => {
+          triggerSlackWebhook();
+        });
     } catch (e) {
       console.log(e);
       setMintStatus("Error Minting");
@@ -87,11 +106,11 @@ export default function Hero() {
           borderRadius: "4px",
           boxSizing: "border-box",
           fontSize: "14px",
-          paddingLeft: "15px", // Add left padding
-          paddingRight: "15px", // Add right padding
+          paddingLeft: "15px",
+          paddingRight: "15px",
         }}
-        value={linkedInUrlInputValue} // Bind the value to the state
-        onChange={handleLinkedInUrlInputValueChanged} // Handle input changes
+        value={linkedInUrlInputValue}
+        onChange={handleLinkedInUrlInputValueChanged}
       />
       <div className="flex flex-row flex-wrap gap-[20px]">
         <button
