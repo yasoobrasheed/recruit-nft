@@ -78,7 +78,7 @@ export default function Hero() {
     try {
       setTimeout(() => {
         setMintStatus("Minted");
-      }, 10000);
+      }, 15000);
       txHash = await provider.waitForUserOperationTransaction(uoHash.hash);
     } catch (e) {
       console.log(e);
