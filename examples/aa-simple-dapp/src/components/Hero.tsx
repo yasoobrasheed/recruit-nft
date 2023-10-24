@@ -13,7 +13,8 @@ type MintStatus =
   | "Requesting"
   | "Minting"
   | "Received"
-  | "Error Minting";
+  | "Error Minting"
+  | "Minted";
 
 export default function Hero() {
   const { isLoggedIn, provider, scaAddress } = useWalletContext();
@@ -53,6 +54,7 @@ export default function Hero() {
 
     let uoHash: any;
     try {
+      setMintStatus("Minting");
       uoHash = await provider
         .sendUserOperation({
           target: tokenContractAddress,
@@ -64,6 +66,7 @@ export default function Hero() {
         })
         .then(() => {
           triggerSlackWebhook();
+          setMintStatus("Minted");
         });
     } catch (e) {
       console.log(e);
@@ -71,7 +74,6 @@ export default function Hero() {
       return;
     }
 
-    setMintStatus("Minting");
     let txHash: Hash;
     try {
       txHash = await provider.waitForUserOperationTransaction(uoHash.hash);
