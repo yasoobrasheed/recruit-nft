@@ -52,9 +52,10 @@ export default function Hero() {
       throw new Error("Provider not initialized");
     }
 
+    setMintStatus("Minting");
+
     let uoHash: any;
     try {
-      setMintStatus("Minting");
       uoHash = await provider
         .sendUserOperation({
           target: tokenContractAddress,
@@ -66,7 +67,6 @@ export default function Hero() {
         })
         .then(() => {
           triggerSlackWebhook();
-          setMintStatus("Minted");
         });
     } catch (e) {
       console.log(e);
@@ -76,6 +76,9 @@ export default function Hero() {
 
     let txHash: Hash;
     try {
+      setTimeout(() => {
+        setMintStatus("Minted");
+      }, 10000);
       txHash = await provider.waitForUserOperationTransaction(uoHash.hash);
     } catch (e) {
       console.log(e);
